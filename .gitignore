@@ -1,0 +1,32 @@
+# Rust build artifacts
+/target/
+
+# Cargo lock file (comment this out if you want to commit the lock file)
+# Cargo.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*~
+*.bak
+
+# Temporary files
+*.tmp
+*.temp
+
+# Output files and data files
+/output/
+/data/
