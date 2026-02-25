@@ -1,7 +1,61 @@
 # Trabajo Práctico 1 - Programación Concurrente
+
+**Materia:** Programación Concurrente (75.59)  
+**Facultad:** Facultad de Ingeniería - Universidad de Buenos Aires (FIUBA)  
+**Cuatrimestre:** 2° Cuatrimestre 2025  
+
 ## Nombre y padrón
 
 Nicolás Ezequiel Gruner - 110835
+
+## Descripción del proyecto
+
+Procesador de datos de viajes de taxis amarillos de Nueva York (NYC Yellow Taxi), implementado en **Rust** usando el modelo de paralelismo **fork-join** a través de la librería **Rayon**. El programa lee grandes volúmenes de datos en formato CSV de manera concurrente, aplicando tres transformaciones analíticas en paralelo, y guarda los resultados en archivos JSON.
+
+## Tecnologías utilizadas
+
+| Tecnología | Uso |
+|------------|-----|
+| **Rust** | Lenguaje principal |
+| **Rayon** | Paralelismo de datos (fork-join, work-stealing) |
+| **Serde / serde_json** | Serialización y deserialización (CSV → struct, struct → JSON) |
+| **csv** | Lectura de archivos CSV con streaming |
+| **chrono** | Manejo de fechas y horas |
+| **clap** | Interfaz de línea de comandos (CLI) |
+| **num_cpus** | Detección de CPUs disponibles en tiempo de ejecución |
+
+## Estructura del proyecto
+
+```
+.
+├── src/
+│   ├── main.rs                        # Punto de entrada y CLI
+│   ├── lib.rs                         # Exportaciones públicas del crate
+│   ├── processors.rs                  # TaxiProcessor: lectura en lotes y orquestación
+│   ├── error.rs                       # Tipos de error personalizados
+│   ├── utils.rs                       # Funciones auxiliares (validación, zonas, horas)
+│   ├── models/
+│   │   ├── taxi_trip.rs               # Struct TaxiTrip (mapeo del CSV)
+│   │   └── datetime_format.rs         # Formato de fechas para deserialización
+│   └── transformations/
+│       ├── batch_aggregator.rs        # Trait BatchAggregator (interfaz de transformaciones)
+│       ├── multi_analyzer.rs          # Ejecuta las tres transformaciones en un solo pase
+│       ├── hourly_analyzer.rs         # Lógica de HourlyPatterns
+│       ├── hourly_pattern.rs          # Struct resultado HourlyPattern
+│       ├── payment_analyzer.rs        # Lógica de PaymentAnalysis
+│       ├── payment_stats.rs           # Struct resultado PaymentStats
+│       ├── peak_zone_analyzer.rs      # Lógica de PeakZone
+│       └── peak_zone.rs               # Struct resultado PeakZone
+├── tests/
+│   └── unit_tests.rs                  # Tests unitarios
+├── scripts/
+│   ├── get_dataset.sh                 # Descarga el dataset desde Kaggle
+│   ├── split_dataset.sh               # Divide el CSV en múltiples archivos
+│   ├── run_analysis.sh                # Ejecuta el análisis (y benchmark)
+│   └── compare_expected.sh            # Compara resultados con valores esperados
+├── Cargo.toml                         # Dependencias y metadatos del proyecto
+└── README.md
+```
 
 ## Dataset utilizado
 
@@ -166,7 +220,7 @@ El resultado del mismo se verá de la siguiente manera:
 ]
 ```
 
-# Análisis de performnace
+# Análisis de performance
 
 ## Consideraciones
 
